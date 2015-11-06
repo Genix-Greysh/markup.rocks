@@ -1,12 +1,24 @@
+{-# LANGUAGE CPP             #-}
+
 module Widgets.Misc where
 
 import           Control.Applicative   ((<$>))
+import           GHCJS.Foreign
+import           GHCJS.Types
 import           Reflex.Dom
 import           Safe                  (tailSafe)
 import           System.FilePath.Posix (takeExtension)
 
 import           Example               (markdownExample)
 import           LocalStorage          (getPref)
+
+#ifdef __GHCJS__
+#define JS(name, js, type) foreign import javascript unsafe js name :: type
+#else
+#define JS(name, js, type) name :: type ; name = undefined
+#endif
+
+JS(loadDocument, "loadDocument()", IO JSString)
 
 iconLinkClass :: MonadWidget t m
               => String -> String -> String -> m (Event t ())
@@ -24,4 +36,4 @@ lastExt :: IO String
 lastExt = (tailSafe . takeExtension) <$> getPref "Last File" "untitled.md"
 
 lastDoc :: IO String
-lastDoc = getPref "Last Document" markdownExample
+lastDoc = fmap fromJSString loadDocument

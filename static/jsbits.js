@@ -93,4 +93,20 @@
     var dataUri = "data:text/plain;charset=UTF-8;base64," + b64;
     Dropbox.save(dataUri, filename);
   };
+
+  window.loadDocument = function () {
+    var hash = window.location.hash.substring(1);
+    if (hash.length > 0) {
+      var request = new XMLHttpRequest();
+      request.open('GET', hash, false);  // `false` makes the request synchronous
+      request.send(null);
+      if (request.status === 200) {
+        return request.responseText;
+      }
+      return "# ERROR";
+    } else {
+      window.location.hash = "#README.md";
+      window.location.reload();
+    }
+  };
 })();
