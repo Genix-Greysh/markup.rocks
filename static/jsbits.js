@@ -94,19 +94,28 @@
     Dropbox.save(dataUri, filename);
   };
 
-  window.loadDocument = function () {
+  window.onhashchange = function () {
+    window.location.reload();
+  };
+
+  window.getHash = function () {
     var hash = window.location.hash.substring(1);
     if (hash.length > 0) {
-      var request = new XMLHttpRequest();
-      request.open('GET', hash, false);  // `false` makes the request synchronous
-      request.send(null);
-      if (request.status === 200) {
-        return request.responseText;
-      }
-      return "# ERROR";
+      return hash;
     } else {
       window.location.hash = "#README.md";
-      window.location.reload();
+    }
+  };
+
+  window.loadDocument = function () {
+    var hash = window.getHash();
+    var request = new XMLHttpRequest();
+    request.open('GET', hash, false);  // `false` makes the request synchronous
+    request.send(null);
+    if (request.status === 200) {
+      return request.responseText;
+    } else {
+      return request.status + " error: unable to load " + hash;
     }
   };
 })();

@@ -9,7 +9,6 @@ import           Reflex.Dom
 import           Safe                  (tailSafe)
 import           System.FilePath.Posix (takeExtension)
 
-import           Example               (markdownExample)
 import           LocalStorage          (getPref)
 
 #ifdef __GHCJS__
@@ -18,6 +17,7 @@ import           LocalStorage          (getPref)
 #define JS(name, js, type) name :: type ; name = undefined
 #endif
 
+JS(getHash, "getHash()", IO JSString)
 JS(loadDocument, "loadDocument()", IO JSString)
 
 iconLinkClass :: MonadWidget t m
@@ -33,7 +33,7 @@ icon :: MonadWidget t m => String -> m ()
 icon i = elClass "i" (i ++ " icon") (return ())
 
 lastExt :: IO String
-lastExt = (tailSafe . takeExtension) <$> getPref "Last File" "untitled.md"
+lastExt = tailSafe . takeExtension . fromJSString <$> getHash
 
 lastDoc :: IO String
-lastDoc = fmap fromJSString loadDocument
+lastDoc = fromJSString <$> loadDocument

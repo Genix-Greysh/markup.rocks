@@ -33,7 +33,6 @@ import           Text.Pandoc
 
 import           Editor
 import           Formats
-import           Example
 import           LocalStorage            (getPref, setPref)
 import           Widgets.Menu
 import           Widgets.CodeMirror

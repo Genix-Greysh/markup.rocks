@@ -20,7 +20,6 @@ import           LocalStorage            (getPref)
 import           Widgets.CodeMirror
 import           Widgets.Dialog.Location
 import           Widgets.Dialog.OpenFile
-import           Example
 import           Widgets.Setting
 import           Formats
 import           Widgets.Menu

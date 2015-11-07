@@ -15,7 +15,6 @@ import           Reflex.Dom
 import           Reflex.Dom.Class
 import           System.FilePath.Posix   (takeBaseName)
 
-import           Example
 import           Widgets.Dialog.Location
 import           Widgets.Misc            (icon, iconLinkClass)
 
